@@ -1,0 +1,581 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>TryOut TNI - BrainUp</title>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@700;800;900&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Outfit:wght@500;700;800;900&display=swap" rel="stylesheet">
+<style>
+  * { margin:0; padding:0; box-sizing:border-box; -webkit-tap-highlight-color: transparent; }
+  :root{
+    --maroon:#5D0000;
+    --maroon-deep:#3D0000;
+    --maroon-light:#7A1111;
+    --gold:#F4A259;
+    --gold-soft:#FFE8D0;
+    --gold-bright:#FFC080;
+    --bg-base:#FDFBF7;
+    --bg-soft:#F5ECE8;
+    --white:#FFFFFF;
+    --text:#1E1E1E;
+    --muted:#6B7280;
+    --border:#E5E7EB;
+    --success:#16A34A;
+    --success-soft:#DCFCE7;
+    --danger:#DC2626;
+    --danger-soft:#FEE2E2;
+    --purple:#4F46E5;
+    --purple-soft:#EEF2FF;
+    --wa:#25D366;
+  }
+  
+  body { 
+    font-family: 'Plus Jakarta Sans', sans-serif; 
+    background: 
+      linear-gradient(to bottom, rgba(61, 0, 0, 0.88), rgba(93, 0, 0, 0.95)), 
+      url('https://images.unsplash.com/photo-1541339907198-e08756dedf3f?q=80&w=1920&auto=format&fit=crop') center/cover no-repeat fixed;
+    color: var(--text); 
+    line-height: 1.6; 
+    display: flex; 
+    flex-direction: column; 
+    min-height: 100vh; 
+    overflow-x: hidden;
+    position: relative;
+    scroll-behavior: smooth;
+  }
+
+  h1, h2, h3, h4 { 
+    font-family: 'Montserrat', sans-serif !important; 
+    font-weight: 900 !important; 
+    letter-spacing: -0.5px;
+    text-transform: uppercase;
+  }
+
+  /* HEADER */
+  .header { 
+    background: rgba(253, 251, 247, 0.95); 
+    backdrop-filter: blur(10px); 
+    padding: 15px 30px; 
+    display: flex; 
+    justify-content: space-between; 
+    align-items: center; 
+    border-bottom: 3px solid var(--gold); 
+    position: sticky; 
+    top: 0; 
+    z-index: 1000; 
+    box-shadow: 0 4px 20px rgba(0,0,0,0.15);
+  }
+  .brand-wrapper { display: flex; align-items: center; gap: 15px; text-decoration: none; }
+  .brand { display: flex; align-items: center; gap: 10px; text-decoration: none; }
+  .brand img { height: 45px; object-fit: contain; }
+  .tagline { display: flex; flex-direction: column; font-family: 'Plus Jakarta Sans', sans-serif; font-size: 0.75rem; line-height: 1.3; border-left: 2px solid var(--gold); padding-left: 15px; }
+  .tagline span:first-child { font-weight: 800; color: var(--maroon); font-style: italic; }
+  .tagline span:last-child { font-weight: 600; color: var(--muted); letter-spacing: 0.5px; }
+  
+  .header-nav { display: flex; gap: 10px; align-items: center; }
+  .nav-link { 
+    color: var(--maroon); font-weight: 700; font-size: 14px; text-decoration: none; 
+    padding: 8px 16px; border-radius: 8px; background: var(--bg-soft); transition: 0.3s;
+  }
+  .nav-link:hover { background: var(--gold); color: #fff; }
+  .btn-back { color: var(--maroon); font-weight: 700; text-decoration: none; font-size: 15px; transition: 0.3s; display: flex; align-items: center; gap: 6px; background: var(--bg-soft); padding: 8px 16px; border-radius: 8px; border: 1.5px solid transparent; cursor: pointer; }
+  .btn-back:hover { background: var(--maroon); color: #fff; border-color: var(--gold); transform: translateX(-3px); }
+
+  /* MAIN LAYOUT */
+  .main-layout {
+    flex: 1; 
+    width: 100%; 
+    max-width: 1000px; 
+    margin: 0 auto; 
+    padding: 40px 20px; 
+    position: relative; 
+    z-index: 1;
+  }
+
+  /* TITLE & HEADER */
+  .catalog-header { text-align: center; margin-bottom: 30px; }
+  .catalog-header h1 { color: var(--gold); font-size: 2.2rem; text-shadow: 0 2px 10px rgba(0,0,0,0.6); margin-bottom: 10px; }
+  .catalog-header p { color: #fff; font-size: 1rem; opacity: 0.9; margin-bottom: 25px; text-shadow: 0 1px 4px rgba(0,0,0,0.5); }
+
+  /* NAVIGASI CEPAT */
+  .quick-nav {
+    display: flex; justify-content: center; gap: 12px; margin-bottom: 30px; flex-wrap: wrap;
+  }
+  .quick-nav a {
+    padding: 12px 25px; background: rgba(255,255,255,0.1); backdrop-filter: blur(5px);
+    border: 1px solid var(--gold); border-radius: 20px; text-decoration: none;
+    color: var(--gold); font-weight: 800; font-size: 0.9rem; font-family: 'Outfit', sans-serif;
+    transition: 0.3s; box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+  }
+  .quick-nav a:hover { background: var(--gold); color: var(--maroon-deep); transform: translateY(-3px); }
+
+  /* SECTION TITLE */
+  .section-title {
+    display: flex; align-items: center; gap: 12px; margin: 35px 0 20px; scroll-margin-top: 100px;
+  }
+  .section-title h2 {
+    font-size: 1.5rem; color: var(--gold); text-shadow: 0 2px 5px rgba(0,0,0,0.5);
+  }
+
+  /* GRID KARTU */
+  .grid-container {
+    display: grid; 
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); 
+    gap: 25px;
+  }
+  
+  /* KARTU TO */
+  .to-card {
+    background-size: cover; background-position: center;
+    border-radius: 20px; overflow: hidden; 
+    transition: all 0.3s ease;
+    border: 2px solid rgba(244,162,89,0.6); 
+    position: relative; display: flex; flex-direction: column;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+    padding: 30px 25px 25px 25px; min-height: 250px;
+    justify-content: flex-end;
+  }
+  
+  .to-card::before {
+    content: ''; position: absolute; inset: 0;
+    background: linear-gradient(to top, rgba(61, 0, 0, 0.98) 0%, rgba(61, 0, 0, 0.65) 60%, transparent 100%);
+    z-index: 1; transition: 0.3s;
+  }
+
+  .to-card:hover { 
+    transform: translateY(-5px); 
+    border-color: var(--gold); 
+    box-shadow: 0 15px 40px rgba(244,162,89,0.4); 
+  }
+  .to-card:hover::before {
+    background: linear-gradient(to top, rgba(93, 0, 0, 0.98) 0%, rgba(61, 0, 0, 0.75) 60%, transparent 100%);
+  }
+
+  .card-content { position: relative; z-index: 2; }
+
+  .to-title { 
+    font-size: 1.4rem; font-weight: 900; color: var(--gold); 
+    margin-bottom: 5px; line-height: 1.3; text-shadow: 0 2px 4px rgba(0,0,0,0.6); 
+  }
+  .to-desc { font-size: 0.85rem; color: #E5D5D5; margin-bottom: 15px; line-height: 1.5; }
+
+  /* STATUS BADGE */
+  .status-badge { 
+    display: inline-block; padding: 5px 12px; border-radius: 20px; 
+    font-size: 0.7rem; font-weight: 800; text-transform: uppercase; 
+    margin-bottom: 12px; align-self: flex-start; letter-spacing: 0.3px;
+    font-family: 'Outfit', sans-serif;
+  }
+  .status-terkunci { background: var(--danger-soft); color: var(--danger); }
+  .status-terbuka { background: var(--success-soft); color: var(--success); }
+  .status-na { background: rgba(244, 162, 89, 0.25); color: var(--gold); border: 1px solid var(--gold); }
+
+  /* BUTTON MULAI & SEGERA HADIR */
+  .btn-mulai, .btn-kode { 
+    display: block; text-align: center; background: linear-gradient(135deg, var(--gold) 0%, var(--gold-bright) 100%); 
+    color: var(--maroon-deep); padding: 12px; border-radius: 10px; text-decoration: none; font-weight: 800; 
+    transition: 0.3s; width: 100%; text-transform: uppercase; border: none; 
+    cursor: pointer; font-size: 0.9rem; font-family: 'Outfit', sans-serif;
+    box-shadow: 0 4px 15px rgba(244,162,89,0.4);
+  }
+  .btn-mulai:hover, .btn-kode:hover { 
+    transform: translateY(-2px); box-shadow: 0 6px 20px rgba(244,162,89,0.6); 
+  }
+  
+  .btn-segera { 
+    background: #666; color: #ccc; cursor: not-allowed; box-shadow: none;
+  }
+  .btn-segera:hover { background: #666; transform: none; box-shadow: none; }
+
+  /* FORM KODE */
+  .form-kode { 
+    display: none; margin-top: 15px; background: rgba(255,255,255,0.15); 
+    padding: 15px; border-radius: 12px; backdrop-filter: blur(10px); 
+    border: 1px solid rgba(255,255,255,0.25); 
+  }
+  .form-kode input { 
+    width: 100%; padding: 12px; border: none; border-radius: 8px; 
+    margin-bottom: 10px; font-family: inherit; font-size: 0.9rem; outline: none; 
+  }
+  .btn-wa-admin { 
+    display: block; text-align: center; font-size: 0.78rem; 
+    color: var(--gold); font-weight: 700; text-decoration: none; margin-top: 10px;
+  }
+  .btn-wa-admin:hover { text-decoration: underline; }
+
+  /* WA FLOAT */
+  .float-wa { 
+    position: fixed; bottom: 30px; right: 30px; background: linear-gradient(135deg, var(--wa) 0%, #128C7E 100%); 
+    color: white; width: 55px; height: 55px; border-radius: 50%; display: flex; align-items: center; 
+    justify-content: center; box-shadow: 0 10px 25px rgba(37,211,102,0.4); z-index: 999; 
+    transition: 0.3s; cursor: pointer; border: 3px solid var(--gold); text-decoration: none;
+  }
+  .float-wa:hover { transform: scale(1.1) rotate(10deg); }
+  .float-wa svg { width: 30px; height: 30px; fill: currentColor; }
+
+  /* FOOTER */
+  footer { 
+    background: rgba(61, 0, 0, 0.98); color: #fff; 
+    padding: 30px 20px; text-align: center; position: relative; z-index: 10; border-top: 3px solid var(--gold);
+    backdrop-filter: blur(10px);
+    display: flex; flex-direction: column; align-items: center; gap: 15px;
+  }
+  .footer-socials { display: flex; gap: 15px; margin-bottom: 5px; }
+  .social-btn {
+    width: 40px; height: 40px; border-radius: 50%;
+    background: rgba(255, 255, 255, 0.05); border: 1.5px solid rgba(244,162,89,0.3);
+    display: flex; align-items: center; justify-content: center; transition: 0.3s; text-decoration: none;
+  }
+  .social-btn svg { width: 20px; height: 20px; fill: #E5D5D5; transition: 0.3s; }
+  .social-btn:hover { background: var(--gold); border-color: var(--gold); transform: translateY(-3px); }
+  .social-btn:hover svg { fill: var(--maroon-deep); }
+  .footer-content p { color: #E5D5D5; font-size: 0.8rem; margin-bottom: 5px; }
+  .footer-content .copyright { color: #9CA3AF; font-size: 0.75rem; }
+
+  /* MODAL WA */
+  .modal-wa {
+    display: none; position: fixed; inset: 0; background: rgba(61,0,0,0.85); 
+    backdrop-filter: blur(8px); z-index: 9999; align-items: center; justify-content: center; padding: 20px;
+  }
+  .modal-wa.active { display: flex; }
+  .modal-wa-box {
+    background: var(--bg-base); border-radius: 24px; width: 100%; max-width: 450px;
+    padding: 35px 30px; box-shadow: 0 25px 60px rgba(0,0,0,0.5), 0 0 0 3px var(--gold);
+    animation: popIn 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  }
+  .modal-wa-box h3 { text-align: center; font-size: 1.5rem; margin-bottom: 10px; color: var(--maroon);}
+  .modal-wa-box p { text-align: center; font-size: 0.95rem; color: var(--muted); margin-bottom: 25px; }
+  .form-group-wa { margin-bottom: 15px; }
+  .form-group-wa label { display: block; font-weight: 600; font-size: 0.85rem; margin-bottom: 5px; color: var(--maroon); }
+  .form-group-wa input, .form-group-wa select { width: 100%; padding: 12px 15px; border: 1.5px solid var(--border); border-radius: 10px; font-size: 0.95rem; background: #F9FAFB; font-family: 'Plus Jakarta Sans', sans-serif; transition: 0.3s;}
+  .form-group-wa input:focus, .form-group-wa select:focus { outline: none; border-color: var(--maroon); background: #fff; box-shadow: 0 0 0 3px rgba(244,162,89,0.2);}
+  .btn-wa-kirim { 
+    display: block; width: 100%; padding: 15px; background: linear-gradient(135deg, #25D366 0%, #128C7E 100%); 
+    color: #fff; border: none; border-radius: 12px; font-weight: 800; font-size: 1rem; 
+    cursor: pointer; margin-top: 15px; text-align: center; font-family: 'Outfit', sans-serif; transition: 0.3s;
+  }
+  .btn-wa-kirim:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(37,211,102,0.4); }
+  .btn-wa-tutup { background: transparent; color: #9CA3AF; border: none; font-size: 0.95rem; font-weight: 600; cursor: pointer; margin-top: 15px; transition: 0.3s; width: 100%; text-align: center; }
+  .btn-wa-tutup:hover { color: var(--maroon); }
+  @keyframes popIn { 0% { transform: scale(0.9); opacity: 0; } 100% { transform: scale(1); opacity: 1; } }
+
+  /* RESPONSIVE */
+  @media (max-width: 600px) {
+    .header { padding: 10px 15px; flex-wrap: wrap; gap: 10px; }
+    .brand img { height: 32px; }
+    .tagline { display: none; }
+    .header-nav { width: 100%; justify-content: space-between; }
+    .nav-link, .btn-back { padding: 6px 12px; font-size: 12px; }
+    .main-layout { padding: 20px 15px; }
+    .catalog-header h1 { font-size: 1.6rem; }
+    .grid-container { grid-template-columns: 1fr; }
+    .float-wa { width: 45px; height: 45px; bottom: 15px; right: 15px; border-width: 2px; }
+    .float-wa svg { width: 24px; height: 24px; }
+    body { background-attachment: scroll; }
+    .to-card { min-height: 220px; }
+    .modal-wa-box { padding: 25px 20px; }
+  }
+</style>
+</head>
+<body>
+
+  <div class="header">
+    <a href="dashboard.html" class="brand-wrapper">
+      <div class="brand">
+        <img src="https://i.imgur.com/VXUBgjD.png" alt="Logo BrainUp">
+      </div>
+      <div class="tagline">
+        <span>#Jangan Panik!</span>
+        <span>BrainUp Punya Taktik</span>
+      </div>
+    </a>
+    
+    <div class="header-nav">
+      <a href="katalog-psikotes.html" class="nav-link">Latihan Psikotes</a>
+      <a href="dashboard.html" class="btn-back">← Dashboard</a>
+    </div>
+  </div>
+
+  <div class="main-layout">
+    
+    <div class="catalog-header">
+      <h1>TryOut TNI</h1>
+      <p>Pilih paket simulasi ujian TKD, Tes Akademik, dan Psikotes untuk persiapan masuk Tentara Nasional Indonesia.</p>
+    </div>
+
+    <!-- NAVIGASI CEPAT -->
+    <div class="quick-nav">
+      <a href="#tkd">TKD</a>
+      <a href="#akademik">Akademik</a>
+      <a href="#psikotes">Psikotes</a>
+    </div>
+
+    <!-- SECTION TKD -->
+    <div class="section-title" id="tkd">
+      <h2>Tes Kompetensi Dasar (TKD)</h2>
+    </div>
+    <div class="grid-container" id="grid-tkd"></div>
+
+    <!-- SECTION AKADEMIK -->
+    <div class="section-title" id="akademik">
+      <h2>Tes Akademik</h2>
+    </div>
+    <div class="grid-container" id="grid-akademik"></div>
+
+    <!-- SECTION PSIKOTES -->
+    <div class="section-title" id="psikotes">
+      <h2>Psikotes TNI</h2>
+    </div>
+    <div class="grid-container" id="grid-psikotes"></div>
+
+  </div>
+
+  <!-- FLOATING WHATSAPP -->
+  <a href="javascript:void(0)" onclick="bukaModalWa()" class="float-wa" title="Hubungi Admin">
+    <svg viewBox="0 0 24 24"><path d="M12.031 2C6.51 2 2.014 6.496 2.014 12.017c0 1.766.461 3.49 1.336 5.012L2 22l5.108-1.338A9.968 9.968 0 0012.03 22c5.521 0 10.017-4.496 10.017-10.017S17.552 2 12.031 2zm5.223 14.03c-.222.625-1.286 1.196-1.762 1.242-.476.047-1.065.21-3.488-1.007-2.914-1.466-4.763-4.478-4.908-4.68-.144-.203-1.166-1.554-1.166-2.966 0-1.412.735-2.104 1.003-2.392.268-.288.587-.36.783-.36.196 0 .392.004.563.013.183.01.43-.07.67.515.245.595.833 2.053.908 2.203.075.15.125.325.025.525-.1.2-.375.604-.6.83-.225.225-.35.375-.225.6.125.225.556.917 1.192 1.486.816.728 1.504.955 1.717 1.062.212.107.338.088.463-.054.125-.142.535-.625.678-.838.143-.213.286-.178.48-.104.195.074 1.238.584 1.45.69.212.107.35.16.4.25.05.09.05.522-.172 1.147z"/></svg>
+  </a>
+
+  <!-- MODAL WHATSAPP BIODATA -->
+  <div class="modal-wa" id="modalWa">
+    <div class="modal-wa-box">
+      <h3>Konsultasi Bimbel</h3>
+      <p>Isi data singkat ini agar Admin kami bisa memberikan rekomendasi terbaik untukmu.</p>
+      
+      <form id="formWa" onsubmit="kirimWa(event)">
+        <div class="form-group-wa">
+          <label>Nama Lengkap</label>
+          <input type="text" id="waNama" placeholder="Masukkan nama Anda" required>
+        </div>
+        <div class="form-group-wa">
+          <label>Asal Kota / Sekolah</label>
+          <input type="text" id="waAsal" placeholder="Contoh: SMAN 1 Jakarta" required>
+        </div>
+        <div class="form-group-wa">
+          <label>Pilihan Program</label>
+          <select id="waProgram" required>
+            <option value="" disabled selected>Pilih program...</option>
+            <option value="Bimbel Reguler">Bimbel Reguler</option>
+            <option value="Bimbel Privat">Bimbel Privat (1-on-1)</option>
+            <option value="Kelas Online / Zoom">Kelas Online / Zoom</option>
+            <option value="TryOut & Pembahasan">Beli Paket TryOut</option>
+          </select>
+        </div>
+        <button type="submit" class="btn-wa-kirim">Kirim & Chat Admin</button>
+        <button type="button" class="btn-wa-tutup" onclick="tutupModalWa()">Batal</button>
+      </form>
+    </div>
+  </div>
+
+  <!-- FOOTER -->
+  <footer>
+    <div class="footer-socials">
+      <a href="https://instagram.com/brainup.id" target="_blank" class="social-btn" title="Instagram BrainUp">
+        <svg viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>
+      </a>
+      <a href="https://tiktok.com/@brainup.id" target="_blank" class="social-btn" title="TikTok BrainUp">
+        <svg viewBox="0 0 24 24"><path d="M12.525.02c1.31-.02 2.61-.01 3.91-.02.08 1.53.63 3.09 1.75 4.17 1.12 1.11 2.7 1.62 4.24 1.79v4.03c-1.44-.05-2.89-.35-4.2-.97-.57-.26-1.1-.59-1.62-.93-.01 2.92.01 5.84-.02 8.75-.08 2.22-1.15 4.41-2.92 5.83-1.76 1.41-4.2 1.96-6.45 1.58-2.25-.38-4.34-1.83-5.57-3.76-1.23-1.93-1.57-4.4-.93-6.58.63-2.18 2.22-4.08 4.32-4.96 2.09-.88 4.52-.85 6.6.09v4.16c-1.23-.44-2.68-.46-3.9.02-1.22.48-2.22 1.47-2.69 2.68-.48 1.21-.44 2.65.14 3.83.58 1.18 1.68 2.07 2.95 2.42 1.27.35 2.68.18 3.78-.54 1.1-.72 1.78-1.96 1.81-3.27.03-3.93.01-7.86.02-11.79z"/></svg>
+      </a>
+      <a href="https://youtube.com/@brainup.id" target="_blank" class="social-btn" title="YouTube BrainUp">
+        <svg viewBox="0 0 24 24"><path d="M19.615 3.184c-3.604-.246-11.631-.245-15.23 0-3.897.266-4.356 2.62-4.385 8.816.029 6.185.484 8.549 4.385 8.816 3.6.245 11.626.246 15.23 0 3.897-.266 4.356-2.62 4.385-8.816-.029-6.185-.484-8.549-4.385-8.816zm-10.615 12.816v-8l8 3.993-8 4.007z"/></svg>
+      </a>
+    </div>
+
+    <div class="footer-content">
+      <p class="copyright">© 2026 BrainUp - Bimbel & Platform TryOut.</p>
+      <p>Membangun masa depan, satu tryout dalam satu waktu.</p>
+    </div>
+  </footer>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const gridTKD = document.getElementById('grid-tkd');
+      const gridAkademik = document.getElementById('grid-akademik');
+      const gridPsikotes = document.getElementById('grid-psikotes');
+      
+      // GANTI NOMOR WA DI SINI
+      const WA_ADMIN = "6281234567890"; 
+
+      // PENGATURAN TKD (15 PAKET)
+      const LINK_TKD = {
+        1: "", 2: "", 3: "", 4: "", 5: "",
+        6: "", 7: "", 8: "", 9: "", 10: "",
+        11: "", 12: "", 13: "", 14: "", 15: ""
+      };
+      const KODE_TKD = {
+        "tkd1": [], "tkd2": [], "tkd3": [], "tkd4": [], "tkd5": [],
+        "tkd6": [], "tkd7": [], "tkd8": [], "tkd9": [], "tkd10": [],
+        "tkd11": [], "tkd12": [], "tkd13": [], "tkd14": [], "tkd15": []
+      };
+
+      // PENGATURAN AKADEMIK (10 PAKET)
+      const LINK_AKADEMIK = {
+        1: "", 2: "", 3: "", 4: "", 5: "",
+        6: "", 7: "", 8: "", 9: "", 10: ""
+      };
+      const KODE_AKADEMIK = {
+        "akademik1": [], "akademik2": [], "akademik3": [], "akademik4": [], "akademik5": [],
+        "akademik6": [], "akademik7": [], "akademik8": [], "akademik9": [], "akademik10": []
+      };
+
+      // PENGATURAN PSIKOTES (6 PAKET)
+      const LINK_PSIKOTES = {
+        1: "", 2: "", 3: "", 4: "", 5: "", 6: ""
+      };
+      const KODE_PSIKOTES = {
+        "psikotes1": [], "psikotes2": [], "psikotes3": [], "psikotes4": [], "psikotes5": [], "psikotes6": []
+      };
+
+      // Background images per card
+      const bgImages = [
+        "https://images.unsplash.com/photo-1551288049-bebda4e38f71?q=80&w=600&auto=format&fit=crop",
+        "https://images.unsplash.com/photo-1509228468518-180dd4864904?q=80&w=600&auto=format&fit=crop",
+        "https://images.unsplash.com/photo-1524995997946-a1c2e315a42f?q=80&w=600&auto=format&fit=crop",
+        "https://images.unsplash.com/photo-1516321318423-f06f85e504b3?q=80&w=600&auto=format&fit=crop",
+        "https://images.unsplash.com/photo-1456513080510-7bf3a84b82f8?q=80&w=600&auto=format&fit=crop"
+      ];
+
+      let kodeTersimpan = JSON.parse(localStorage.getItem('kodeAksesTNI') || '{}');
+      let kodeTerpakai = JSON.parse(localStorage.getItem('kodeTerpakaiTNI') || '[]');
+
+      function renderCards(container, type, count, linkData, kodeData) {
+        container.innerHTML = '';
+        for (let i = 1; i <= count; i++) {
+          const paketKey = `${type}${i}`;
+          const isLinkTersedia = linkData[i] && linkData[i] !== "";
+          const isUnlocked = kodeTersimpan[paketKey] !== undefined;
+          
+          const bgImage = bgImages[(i - 1) % bgImages.length];
+
+          const card = document.createElement('div');
+          card.classList.add('to-card');
+          card.style.backgroundImage = `url('${bgImage}')`;
+          
+          let statusHTML = '';
+          let btnHTML = '';
+
+          if (!isLinkTersedia) {
+            statusHTML = `<div class="status-badge status-na">Belum Tersedia</div>`;
+            btnHTML = `<button class="btn-mulai btn-segera" disabled>Segera Hadir</button>`;
+          } else if (isUnlocked) {
+            statusHTML = `<div class="status-badge status-terbuka">Terbuka</div>`;
+            btnHTML = `<a href="${linkData[i]}" class="btn-mulai">Mulai Ujian</a>`;
+          } else {
+            statusHTML = `<div class="status-badge status-terkunci">Terkunci</div>`;
+            btnHTML = `
+              <button class="btn-mulai" onclick="toggleForm('${paketKey}')">Masukkan Kode</button>
+              <div class="form-kode" id="form-kode-${paketKey}">
+                <input type="text" id="input-kode-${paketKey}" placeholder="Masukkan Kode...">
+                <button class="btn-kode" onclick="verifikasiKode('${paketKey}', '${type}')">Buka Kunci</button>
+                <a href="javascript:void(0)" onclick="bukaModalWa()" class="btn-wa-admin">Belum ada kode? Hubungi Admin</a>
+              </div>
+            `;
+          }
+
+          let judul, deskripsi;
+          if (type === 'tkd') {
+            judul = 'TryOut TKD';
+            deskripsi = 'TWK, TIU, dan TKP sesuai kisi-kisi TNI.';
+          } else if (type === 'akademik') {
+            judul = 'TryOut Akademik';
+            deskripsi = 'Matematika, Bahasa Indonesia, dan Bahasa Inggris.';
+          } else {
+            judul = 'TryOut Psikotes';
+            deskripsi = 'Soal Psikotes, Wartegg, dan Kraepelin-Pauli.';
+          }
+
+          card.innerHTML = `
+            <div class="card-content">
+              <h3 class="to-title">${judul} ${i}</h3>
+              <p class="to-desc">${deskripsi}</p>
+              ${statusHTML}
+              ${btnHTML}
+            </div>
+          `;
+          
+          container.appendChild(card);
+        }
+      }
+
+      window.toggleForm = (paketKey) => {
+        const form = document.getElementById(`form-kode-${paketKey}`);
+        form.style.display = form.style.display === 'none' || form.style.display === '' ? 'block' : 'none';
+      };
+
+      window.verifikasiKode = (paketKey, type) => {
+        const input = document.getElementById(`input-kode-${paketKey}`).value.trim().toUpperCase();
+        
+        let kodeData;
+        if (type === 'tkd') kodeData = KODE_TKD;
+        else if (type === 'akademik') kodeData = KODE_AKADEMIK;
+        else kodeData = KODE_PSIKOTES;
+
+        const daftarKodeValid = kodeData[paketKey] || [];
+
+        if (daftarKodeValid.includes(input)) {
+          if (kodeTerpakai.includes(input)) {
+            alert('Kode ini sudah digunakan di perangkat lain!');
+            return;
+          }
+
+          kodeTersimpan[paketKey] = input;
+          localStorage.setItem('kodeAksesTNI', JSON.stringify(kodeTersimpan));
+          
+          kodeTerpakai.push(input);
+          localStorage.setItem('kodeTerpakaiTNI', JSON.stringify(kodeTerpakai));
+          
+          alert('Kode Benar! TryOut Terbuka.');
+          
+          if (type === 'tkd') {
+            renderCards(gridTKD, 'tkd', 15, LINK_TKD, KODE_TKD);
+          } else if (type === 'akademik') {
+            renderCards(gridAkademik, 'akademik', 10, LINK_AKADEMIK, KODE_AKADEMIK);
+          } else {
+            renderCards(gridPsikotes, 'psikotes', 6, LINK_PSIKOTES, KODE_PSIKOTES);
+          }
+        } else {
+          alert('Kode Salah / Tidak Valid. Silakan hubungi Admin.');
+        }
+      };
+
+      // Render awal
+      renderCards(gridTKD, 'tkd', 15, LINK_TKD, KODE_TKD);
+      renderCards(gridAkademik, 'akademik', 10, LINK_AKADEMIK, KODE_AKADEMIK);
+      renderCards(gridPsikotes, 'psikotes', 6, LINK_PSIKOTES, KODE_PSIKOTES);
+    });
+
+    // MODAL WA BIODATA
+    function bukaModalWa() {
+      document.getElementById('modalWa').classList.add('active');
+    }
+
+    function tutupModalWa() {
+      document.getElementById('modalWa').classList.remove('active');
+    }
+
+    document.getElementById('modalWa').addEventListener('click', function(e) { 
+      if (e.target === this) { 
+        tutupModalWa(); 
+      } 
+    });
+
+    function kirimWa(event) {
+      event.preventDefault(); 
+      
+      const NOMOR_WA_ADMIN = "6281234567890"; 
+
+      const nama = document.getElementById('waNama').value;
+      const asal = document.getElementById('waAsal').value;
+      const program = document.getElementById('waProgram').value;
+
+      const pesan = `Halo Admin BrainUp,%0A%0ASaya ingin konsultasi mengenai bimbel.%0A%0A*Nama:* ${nama}%0A*Asal/Kota:* ${asal}%0A*Program:* ${program}%0A%0AMohon info selengkapnya ya Kak. Terima kasih!`;
+      
+      const urlWa = `https://wa.me/${NOMOR_WA_ADMIN}?text=${pesan}`;
+      
+      window.open(urlWa, '_blank');
+      
+      tutupModalWa();
+    }
+  </script>
+
+</body>
+</html>
